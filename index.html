@@ -14,3 +14,16 @@
     <div id="root"></div>
   </body>
 </html>
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+<script>
+  Pi.init({ version: "2.0" });
+</script>
+<button onclick="loginPi()">Login with Pi</button>
+
+<script>
+async function loginPi() {
+  const scopes = ['username', 'payments'];
+  const auth = await Pi.authenticate(scopes);
+  alert("Hello " + auth.user.username);
+}
+</script>
