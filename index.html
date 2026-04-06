@@ -20,10 +20,34 @@
 </script>
 <button onclick="loginPi()">Login with Pi</button>
 
+<input id="username" type="text" placeholder="Enter your username">
+
 <script>
 async function loginPi() {
   const scopes = ['username', 'payments'];
   const auth = await Pi.authenticate(scopes);
   alert("Hello " + auth.user.username);
+}
+</script>
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
+
+<script>
+Pi.init({ version: "2.0" });
+
+async function loginPi() {
+  try {
+    const scopes = ['username', 'payments'];
+    const auth = await Pi.authenticate(scopes);
+
+    console.log(auth);
+
+    document.getElementById("username").value = auth.user.username;
+
+    alert("Login berhasil: " + auth.user.username);
+
+  } catch (err) {
+    console.error(err);
+    alert("Login gagal / dibatalkan");
+  }
 }
 </script>
