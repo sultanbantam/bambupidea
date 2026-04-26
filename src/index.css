@@ -1,0 +1,178 @@
+:root {
+  /* Green Theme Colors */
+  --color-primary: #15803d; /* dark green */
+  --color-primary-light: #22c55e;
+  --color-primary-dark: #166534;
+  --color-bg: #f0fdf4; /* very light green background */
+  --color-card: #ffffff;
+  --color-text: #052e16; /* very dark green for text */
+  --color-text-muted: #4b5563;
+  --color-border: #e2e8f0;
+  
+  /* Utilities */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-width: 320px;
+  min-height: 100vh;
+  justify-content: center;
+  background-color: #e2e8f0; /* Darker bg outside the app container */
+}
+
+#root {
+  width: 100%;
+  max-width: 480px; /* Mobile first layout constraint */
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  position: relative;
+  box-shadow: var(--shadow-lg);
+  overflow-x: hidden;
+}
+
+/* Typography styles */
+h1, h2, h3, h4 {
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+p {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+/* Forms and Buttons */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--color-text);
+}
+
+.input, .select, .textarea {
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+  background-color: var(--color-card);
+  color: var(--color-text);
+}
+
+.input:focus, .select:focus, .textarea:focus {
+  border-color: var(--color-primary);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.btn:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+.btn-secondary:hover {
+  background-color: var(--color-bg);
+}
+
+/* Card Utils */
+.card {
+  background-color: var(--color-card);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1rem;
+  border: 1px solid var(--color-border);
+}
+
+/* Page Layout */
+.page-container {
+  padding: 1.5rem;
+  padding-bottom: 5rem; /* space for bottom nav */
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Toast/Alert */
+.alert {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-primary-light);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+  z-index: 1000;
+  animation: slideDown 0.3s ease-out;
+  width: max-content;
+  max-width: 90%;
+  text-align: center;
+}
+
+@keyframes slideDown {
+  from { top: -3rem; opacity: 0; }
+  to { top: 1rem; opacity: 1; }
+}
