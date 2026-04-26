@@ -25,9 +25,10 @@ function AI() {
   const [isTyping, setIsTyping] = useState(false);
   const [isProcessingPi, setIsProcessingPi] = useState(false);
   
-  // Custom API Key state
-  const [apiKey, setApiKey] = useState(localStorage.getItem('groq_api_key') || '');
-  const [isConfiguringKey, setIsConfiguringKey] = useState(!localStorage.getItem('groq_api_key'));
+  // Custom API Key state: Prioritize Environment Variable (GitHub Secrets) over LocalStorage
+  const envKey = import.meta.env.VITE_GROQ_API_KEY;
+  const [apiKey, setApiKey] = useState(envKey || localStorage.getItem('groq_api_key') || '');
+  const [isConfiguringKey, setIsConfiguringKey] = useState(!(envKey || localStorage.getItem('groq_api_key')));
   const [tempKey, setTempKey] = useState('');
 
   const endOfMessagesRef = useRef(null);
