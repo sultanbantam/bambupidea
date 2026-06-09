@@ -54,11 +54,62 @@ function AI() {
 
   const handlePiPayment = () => {
     setIsProcessingPi(true);
-    // Simulate Blockchain TX Delay
-    setTimeout(() => {
-      buyAiQuota(PI_DESTINATION);
+    
+    if (!window.Pi) {
+      alert("Pi SDK is not loaded. Please open this app in the Pi Browser.");
       setIsProcessingPi(false);
-    }, 2000);
+      return;
+    }
+
+    const paymentData = {
+      amount: 1, // The amount of Pi to charge
+      memo: "Unlock 10 AI Queries for BambuPIdea",
+      metadata: { uid: currentUser?.pi_uid || currentUser?.username || 'unknown' }
+    };
+
+    const callbacks = {
+      onReadyForServerApproval: (paymentId) => {
+        fetch('/api/approve', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ paymentId })
+        })
+        .then(res => {
+          if (!res.ok) throw new Error("Approval failed");
+        })
+        .catch(err => {
+          console.error("Error approving payment:", err);
+          setIsProcessingPi(false);
+        });
+      },
+      onReadyForServerCompletion: (paymentId, txid) => {
+        fetch('/api/complete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ paymentId, txid })
+        })
+        .then(res => {
+          if (!res.ok) throw new Error("Completion failed");
+          // Successfully completed payment on server, now grant quota
+          buyAiQuota(txid);
+          setIsProcessingPi(false);
+        })
+        .catch(err => {
+          console.error("Error completing payment:", err);
+          setIsProcessingPi(false);
+        });
+      },
+      onCancel: (paymentId) => {
+        console.log("Payment cancelled by user", paymentId);
+        setIsProcessingPi(false);
+      },
+      onError: (error, payment) => {
+        console.error("Payment error", error, payment);
+        setIsProcessingPi(false);
+      }
+    };
+
+    window.Pi.createPayment(paymentData, callbacks);
   };
 
   const handleSend = async (e) => {
